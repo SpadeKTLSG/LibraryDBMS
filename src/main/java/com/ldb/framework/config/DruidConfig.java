@@ -28,15 +28,27 @@ import java.util.Map;
  */
 @Configuration
 public class DruidConfig {
+    /**
+     * 主库数据源
+     *
+     * @param druidProperties
+     * @return
+     */
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.master")
+    @ConfigurationProperties("spring.datasource.druid.master") //从配置文件读取druid.master
     public DataSource masterDataSource(DruidProperties druidProperties) {
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
         return druidProperties.dataSource(dataSource);
     }
 
+    /**
+     * 从库数据源
+     *
+     * @param druidProperties
+     * @return
+     */
     @Bean
-    @ConfigurationProperties("spring.datasource.druid.slave")
+    @ConfigurationProperties("spring.datasource.druid.slave") //从配置文件读取druid.slave
     @ConditionalOnProperty(prefix = "spring.datasource.druid.slave", name = "enabled", havingValue = "true")
     public DataSource slaveDataSource(DruidProperties druidProperties) {
         DruidDataSource dataSource = DruidDataSourceBuilder.create().build();

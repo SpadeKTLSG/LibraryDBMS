@@ -6,9 +6,11 @@ spring:
     druid:
       # 主库数据源
       master:
-        url: jdbc:mysql://localhost:3306/ry-vue?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        #        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/ldbms_all?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
         username: root
-        password: password
+        password: 2333
+
       # 从库数据源
       slave:
         # 从数据源开关/默认关闭
@@ -16,6 +18,7 @@ spring:
         url:
         username:
         password:
+
       # 初始连接数
       initialSize: 5
       # 最小连接池数量

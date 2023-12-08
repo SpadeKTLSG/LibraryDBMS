@@ -1,9 +1,9 @@
 # 项目相关配置
 ruoyi:
   # 名称
-  name: RuoYi
+  name: CSS
   # 版本
-  version: 3.8.7
+  version: 0.1
   # 版权年份
   copyrightYear: 2023
   # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
@@ -63,18 +63,19 @@ spring:
   # 服务模块
   devtools:
     restart:
-      # 热部署开关
-      enabled: true
+      # 热部署开关, 这边暂时关闭
+      enabled: false
+
   # redis 配置
   redis:
     # 地址
-    host: localhost
+    host: 192.168.91.129 #SK的虚拟机, 本地局域网host
     # 端口，默认为6379
     port: 6379
     # 数据库索引
     database: 0
     # 密码
-    password:
+    password: 2333
     # 连接超时时间
     timeout: 10s
     lettuce:
@@ -94,8 +95,8 @@ token:
   header: Authorization
   # 令牌密钥
   secret: abcdefghijklmnopqrstuvwxyz
-  # 令牌有效期（默认30分钟）
-  expireTime: 30
+  # 令牌有效期（min, 设置为2天 = 48×60min = 2880）
+  expireTime: 2880
 
 # MyBatis配置
 mybatis:

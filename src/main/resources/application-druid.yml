@@ -6,7 +6,7 @@ spring:
     druid:
       # 主库数据源
       master:
-        #        driver-class-name: com.mysql.cj.jdbc.Driver
+        # driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://localhost:3306/ldbms_all?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
         username: root
         password: 2333
@@ -50,7 +50,7 @@ spring:
         allow:
         url-pattern: /druid/*
         # 控制台管理用户名和密码
-        login-username: ruoyi
+        login-username: admin
         login-password: 123456
       filter:
         stat:

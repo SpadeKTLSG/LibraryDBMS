@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ldb.project.server.mapper.BookMapper">
-    
+
     <resultMap type="Book" id="BookResult">
-        <result property="bookId"    column="book_id"    />
-        <result property="bookName"    column="book_name"    />
-        <result property="author"    column="author"    />
-        <result property="bookType"    column="book_type"    />
-        <result property="bookPrice"    column="book_price"    />
-        <result property="publishingHouse"    column="publishing_house"    />
-        <result property="summary"    column="summary"    />
-        <result property="bookshelfNumber"    column="bookshelf_number"    />
-        <result property="collectionNumber"    column="collection_number"    />
-        <result property="borrowedNumber"    column="borrowed_number"    />
-        <result property="inLibrariesNumber"    column="in_libraries_number"    />
+        <result property="bookId" column="book_id"/>
+        <result property="bookName" column="book_name"/>
+        <result property="author" column="author"/>
+        <result property="bookType" column="book_type"/>
+        <result property="bookPrice" column="book_price"/>
+        <result property="publishingHouse" column="publishing_house"/>
+        <result property="summary" column="summary"/>
+        <result property="bookshelfNumber" column="bookshelf_number"/>
+        <result property="collectionNumber" column="collection_number"/>
+        <result property="borrowedNumber" column="borrowed_number"/>
+        <result property="inLibrariesNumber" column="in_libraries_number"/>
     </resultMap>
 
     <sql id="selectBookVo">
@@ -24,25 +24,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectBookList" parameterType="Book" resultMap="BookResult">
         <include refid="selectBookVo"/>
-        <where>  
-            <if test="bookName != null  and bookName != ''"> and book_name like concat('%', #{bookName}, '%')</if>
-            <if test="author != null  and author != ''"> and author = #{author}</if>
-            <if test="bookType != null  and bookType != ''"> and book_type = #{bookType}</if>
-            <if test="bookPrice != null "> and book_price = #{bookPrice}</if>
-            <if test="publishingHouse != null  and publishingHouse != ''"> and publishing_house = #{publishingHouse}</if>
-            <if test="summary != null  and summary != ''"> and summary = #{summary}</if>
-            <if test="bookshelfNumber != null  and bookshelfNumber != ''"> and bookshelf_number = #{bookshelfNumber}</if>
-            <if test="collectionNumber != null "> and collection_number = #{collectionNumber}</if>
-            <if test="borrowedNumber != null "> and borrowed_number = #{borrowedNumber}</if>
-            <if test="inLibrariesNumber != null "> and in_libraries_number = #{inLibrariesNumber}</if>
+        <where>
+            <if test="bookName != null  and bookName != ''">and book_name like concat('%', #{bookName}, '%')</if>
+            <if test="author != null  and author != ''">and author like concat('%', #{author}, '%')</if>
+            <if test="bookType != null  and bookType != ''">and book_type like concat('%', #{bookType}, '%')</if>
+            <if test="bookPrice != null ">and book_price = #{bookPrice}</if>
+            <if test="publishingHouse != null  and publishingHouse != ''">and publishing_house like concat('%', #{publishingHouse}, '%')</if>
+            <if test="summary != null  and summary != ''">and summary like concat('%', #{summary}, '%')</if>
+            <if test="bookshelfNumber != null  and bookshelfNumber != ''">and bookshelf_number = #{bookshelfNumber}</if>
+            <if test="collectionNumber != null ">and collection_number = #{collectionNumber}</if>
+            <if test="borrowedNumber != null ">and borrowed_number = #{borrowedNumber}</if>
+            <if test="inLibrariesNumber != null ">and in_libraries_number = #{inLibrariesNumber}</if>
         </where>
     </select>
-    
+
     <select id="selectBookByBookId" parameterType="Long" resultMap="BookResult">
         <include refid="selectBookVo"/>
         where book_id = #{bookId}
     </select>
-        
+
     <insert id="insertBook" parameterType="Book">
         insert into book
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -57,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="collectionNumber != null">collection_number,</if>
             <if test="borrowedNumber != null">borrowed_number,</if>
             <if test="inLibrariesNumber != null">in_libraries_number,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="bookId != null">#{bookId},</if>
             <if test="bookName != null and bookName != ''">#{bookName},</if>
@@ -70,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="collectionNumber != null">#{collectionNumber},</if>
             <if test="borrowedNumber != null">#{borrowedNumber},</if>
             <if test="inLibrariesNumber != null">#{inLibrariesNumber},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateBook" parameterType="Book">
@@ -95,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteBookByBookIds" parameterType="String">
-        delete from book where book_id in 
+        delete from book where book_id in
         <foreach item="bookId" collection="array" open="(" separator="," close=")">
             #{bookId}
         </foreach>

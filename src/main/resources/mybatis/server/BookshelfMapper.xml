@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ldb.project.server.mapper.BookshelfMapper">
+
+    <resultMap type="Bookshelf" id="BookshelfResult">
+        <result property="bookshelfNumber" column="bookshelf_number"/>
+        <result property="bookshelfType" column="bookshelf_type"/>
+    </resultMap>
+
+    <sql id="selectBookshelfVo">
+        select bookshelf_number, bookshelf_type from bookshelf
+    </sql>
+
+    <select id="selectBookshelfList" parameterType="Bookshelf" resultMap="BookshelfResult">
+        <include refid="selectBookshelfVo"/>
+        <where>
+            <if test="bookshelfType != null  and bookshelfType != ''">and bookshelf_type like concat('%', #{bookshelfType}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectBookshelfByBookshelfNumber" parameterType="String" resultMap="BookshelfResult">
+        <include refid="selectBookshelfVo"/>
+        where bookshelf_number = #{bookshelfNumber}
+    </select>
+
+    <insert id="insertBookshelf" parameterType="Bookshelf">
+        insert into bookshelf
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bookshelfNumber != null">bookshelf_number,</if>
+            <if test="bookshelfType != null">bookshelf_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bookshelfNumber != null">#{bookshelfNumber},</if>
+            <if test="bookshelfType != null">#{bookshelfType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBookshelf" parameterType="Bookshelf">
+        update bookshelf
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="bookshelfType != null">bookshelf_type = #{bookshelfType},</if>
+        </trim>
+        where bookshelf_number = #{bookshelfNumber}
+    </update>
+
+    <delete id="deleteBookshelfByBookshelfNumber" parameterType="String">
+        delete from bookshelf where bookshelf_number = #{bookshelfNumber}
+    </delete>
+
+    <delete id="deleteBookshelfByBookshelfNumbers" parameterType="String">
+        delete from bookshelf where bookshelf_number in
+        <foreach item="bookshelfNumber" collection="array" open="(" separator="," close=")">
+            #{bookshelfNumber}
+        </foreach>
+    </delete>
+</mapper>

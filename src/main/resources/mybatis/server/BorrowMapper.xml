@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ldb.project.server.mapper.BorrowMapper">
+    
+    <resultMap type="Borrow" id="BorrowResult">
+        <result property="cardNumber"    column="card_number"    />
+        <result property="bookNumber"    column="book_number"    />
+        <result property="bookBorrowTime"    column="book_borrow_time"    />
+        <result property="bookReturnTime"    column="book_return_time"    />
+        <result property="isReturn"    column="is_return"    />
+    </resultMap>
+
+    <sql id="selectBorrowVo">
+        select card_number, book_number, book_borrow_time, book_return_time, is_return from borrow
+    </sql>
+
+    <select id="selectBorrowList" parameterType="Borrow" resultMap="BorrowResult">
+        <include refid="selectBorrowVo"/>
+        <where>  
+            <if test="bookBorrowTime != null "> and book_borrow_time = #{bookBorrowTime}</if>
+            <if test="bookReturnTime != null "> and book_return_time = #{bookReturnTime}</if>
+            <if test="isReturn != null "> and is_return = #{isReturn}</if>
+        </where>
+    </select>
+    
+    <select id="selectBorrowByCardNumber" parameterType="Long" resultMap="BorrowResult">
+        <include refid="selectBorrowVo"/>
+        where card_number = #{cardNumber}
+    </select>
+        
+    <insert id="insertBorrow" parameterType="Borrow">
+        insert into borrow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cardNumber != null">card_number,</if>
+            <if test="bookNumber != null">book_number,</if>
+            <if test="bookBorrowTime != null">book_borrow_time,</if>
+            <if test="bookReturnTime != null">book_return_time,</if>
+            <if test="isReturn != null">is_return,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cardNumber != null">#{cardNumber},</if>
+            <if test="bookNumber != null">#{bookNumber},</if>
+            <if test="bookBorrowTime != null">#{bookBorrowTime},</if>
+            <if test="bookReturnTime != null">#{bookReturnTime},</if>
+            <if test="isReturn != null">#{isReturn},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBorrow" parameterType="Borrow">
+        update borrow
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="bookNumber != null">book_number = #{bookNumber},</if>
+            <if test="bookBorrowTime != null">book_borrow_time = #{bookBorrowTime},</if>
+            <if test="bookReturnTime != null">book_return_time = #{bookReturnTime},</if>
+            <if test="isReturn != null">is_return = #{isReturn},</if>
+        </trim>
+        where card_number = #{cardNumber}
+    </update>
+
+    <delete id="deleteBorrowByCardNumber" parameterType="Long">
+        delete from borrow where card_number = #{cardNumber}
+    </delete>
+
+    <delete id="deleteBorrowByCardNumbers" parameterType="String">
+        delete from borrow where card_number in 
+        <foreach item="cardNumber" collection="array" open="(" separator="," close=")">
+            #{cardNumber}
+        </foreach>
+    </delete>
+</mapper>

@@ -76,16 +76,13 @@ spring:
   
   # redis 配置
   redis:
-    # 地址
-    host: 192.168.91.129 #SK的虚拟机, 本地局域网host
-    # 端口，默认为6379
+    host: 124.70.10.183    #W的虚拟机
     port: 6379
-    # 数据库索引
-    database: 0
-    # 密码
-    password: 2333
+    database: 12     # 数据库索引设置为12号以免冲突
+    password: qwe123     # 密码
+
     # 连接超时时间
-    timeout: 10s
+    timeout: 15s
     lettuce:
       pool:
         # 连接池中的最小空闲连接

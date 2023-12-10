@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 
@@ -68,13 +69,9 @@ public class BookController extends BaseController {
     @Log(title = "书籍", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Book book) {
-
-        //? NOTE SK 新增书籍需要赋值对应的bookId属性; 控制大小量级: 千万级, 99999999~00000001避免万到十万级哈希冲突
-
-        long uuid = (long) UUID.fastUUID().hashCode() / 100;
-        book.setBookId(uuid > 0 ? uuid : -uuid);
         return toAjax(bookService.insertBook(book));
     }
+
 
     /**
      * 修改书籍

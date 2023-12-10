@@ -50,7 +50,7 @@ public class BookServiceImpl implements IBookService {
      */
     @Override
     public int insertBook(Book book) {
-
+        book = book.getUUID(book);
         return bookMapper.insertBook(book);
     }
 

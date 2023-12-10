@@ -53,5 +53,5 @@ public class Borrow extends BaseEntity {
     @Excel(name = "是否还书")
     private Long isReturn;
 
-
+    //默认不能主动新增借阅关系,需要从对应Service生成借阅关系
 }

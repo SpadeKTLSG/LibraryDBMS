@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ldb.project.server.mapper.StaffMapper">
+
+    <resultMap type="Staff" id="StaffResult">
+        <result property="staffId" column="staff_id"/>
+        <result property="staffName" column="staff_name"/>
+        <result property="staffOffice" column="staff_office"/>
+        <result property="staffWages" column="staff_wages"/>
+    </resultMap>
+
+    <sql id="selectStaffVo">
+        select staff_id, staff_name, staff_office, staff_wages from staff
+    </sql>
+
+    <select id="selectStaffList" parameterType="Staff" resultMap="StaffResult">
+        <include refid="selectStaffVo"/>
+        <where>
+            <if test="staffName != null  and staffName != ''">and staff_name like concat('%', #{staffName}, '%')</if>
+            <if test="staffOffice != null  and staffOffice != ''">and staff_office = #{staffOffice}</if>
+            <if test="staffWages != null ">and staff_wages = #{staffWages}</if>
+        </where>
+    </select>
+
+    <select id="selectStaffByStaffId" parameterType="Long" resultMap="StaffResult">
+        <include refid="selectStaffVo"/>
+        where staff_id = #{staffId}
+    </select>
+
+    <insert id="insertStaff" parameterType="Staff">
+        insert into staff
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="staffId != null">staff_id,</if>
+            <if test="staffName != null">staff_name,</if>
+            <if test="staffOffice != null">staff_office,</if>
+            <if test="staffWages != null">staff_wages,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="staffId != null">#{staffId},</if>
+            <if test="staffName != null">#{staffName},</if>
+            <if test="staffOffice != null">#{staffOffice},</if>
+            <if test="staffWages != null">#{staffWages},</if>
+        </trim>
+    </insert>
+
+    <update id="updateStaff" parameterType="Staff">
+        update staff
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="staffName != null">staff_name = #{staffName},</if>
+            <if test="staffOffice != null">staff_office = #{staffOffice},</if>
+            <if test="staffWages != null">staff_wages = #{staffWages},</if>
+        </trim>
+        where staff_id = #{staffId}
+    </update>
+
+    <delete id="deleteStaffByStaffId" parameterType="Long">
+        delete from staff where staff_id = #{staffId}
+    </delete>
+
+    <delete id="deleteStaffByStaffIds" parameterType="String">
+        delete from staff where staff_id in
+        <foreach item="staffId" collection="array" open="(" separator="," close=")">
+            #{staffId}
+        </foreach>
+    </delete>
+</mapper>

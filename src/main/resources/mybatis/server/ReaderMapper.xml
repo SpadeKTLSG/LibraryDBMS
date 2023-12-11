@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ldb.project.server.mapper.ReaderMapper">
+
+    <resultMap type="Reader" id="ReaderResult">
+        <result property="cardNumber" column="card_number"/>
+        <result property="readerName" column="reader_name"/>
+        <result property="readerType" column="reader_type"/>
+        <result property="sex" column="sex"/>
+        <result property="borrowingNumber" column="borrowing_number"/>
+        <result property="borrowedNumber" column="borrowed_number"/>
+    </resultMap>
+
+    <sql id="selectReaderVo">
+        select card_number, reader_name, reader_type, sex, borrowing_number, borrowed_number from reader
+    </sql>
+
+    <select id="selectReaderList" parameterType="Reader" resultMap="ReaderResult">
+        <include refid="selectReaderVo"/>
+        <where>
+            <if test="readerName != null  and readerName != ''">and reader_name like concat('%', #{readerName}, '%')</if>
+            <if test="readerType != null  and readerType != ''">and reader_type = #{readerType}</if>
+            <if test="sex != null  and sex != ''">and sex = #{sex}</if>
+            <if test="borrowingNumber != null ">and borrowing_number = #{borrowingNumber}</if>
+            <if test="borrowedNumber != null ">and borrowed_number = #{borrowedNumber}</if>
+        </where>
+    </select>
+
+    <select id="selectReaderByCardNumber" parameterType="Long" resultMap="ReaderResult">
+        <include refid="selectReaderVo"/>
+        where card_number = #{cardNumber}
+    </select>
+
+    <insert id="insertReader" parameterType="Reader">
+        insert into reader
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cardNumber != null">card_number,</if>
+            <if test="readerName != null and readerName != ''">reader_name,</if>
+            <if test="readerType != null and readerType != ''">reader_type,</if>
+            <if test="sex != null">sex,</if>
+            <if test="borrowingNumber != null">borrowing_number,</if>
+            <if test="borrowedNumber != null">borrowed_number,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cardNumber != null">#{cardNumber},</if>
+            <if test="readerName != null and readerName != ''">#{readerName},</if>
+            <if test="readerType != null and readerType != ''">#{readerType},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="borrowingNumber != null">#{borrowingNumber},</if>
+            <if test="borrowedNumber != null">#{borrowedNumber},</if>
+        </trim>
+    </insert>
+
+    <update id="updateReader" parameterType="Reader">
+        update reader
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="readerName != null and readerName != ''">reader_name = #{readerName},</if>
+            <if test="readerType != null and readerType != ''">reader_type = #{readerType},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="borrowingNumber != null">borrowing_number = #{borrowingNumber},</if>
+            <if test="borrowedNumber != null">borrowed_number = #{borrowedNumber},</if>
+        </trim>
+        where card_number = #{cardNumber}
+    </update>
+
+    <delete id="deleteReaderByCardNumber" parameterType="Long">
+        delete from reader where card_number = #{cardNumber}
+    </delete>
+
+    <delete id="deleteReaderByCardNumbers" parameterType="String">
+        delete from reader where card_number in
+        <foreach item="cardNumber" collection="array" open="(" separator="," close=")">
+            #{cardNumber}
+        </foreach>
+    </delete>
+</mapper>

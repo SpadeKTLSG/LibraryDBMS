@@ -61,6 +61,7 @@ public class BorrowController extends BaseController {
 
     /**
      * 新增借阅
+     * !弃用
      */
     @PreAuthorize("@ss.hasPermi('server:Borrow:add')")
     @Log(title = "借阅", businessType = BusinessType.INSERT)

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ldb.project.server.mapper.UserTypeMapper">
+
+    <resultMap type="UserType" id="UserTypeResult">
+        <result property="userType" column="user_type"/>
+        <result property="canBorrowingTime" column="can_borrowing_time"/>
+        <result property="canBorrowNumber" column="can_borrow_number"/>
+    </resultMap>
+
+    <sql id="selectUserTypeVo">
+        select user_type, can_borrowing_time, can_borrow_number from user_type
+    </sql>
+
+    <select id="selectUserTypeList" parameterType="UserType" resultMap="UserTypeResult">
+        <include refid="selectUserTypeVo"/>
+        <where>
+            <if test="canBorrowingTime != null ">and can_borrowing_time = #{canBorrowingTime}</if>
+            <if test="canBorrowNumber != null ">and can_borrow_number = #{canBorrowNumber}</if>
+        </where>
+    </select>
+
+    <select id="selectUserTypeByUserType" parameterType="String" resultMap="UserTypeResult">
+        <include refid="selectUserTypeVo"/>
+        where user_type = #{userType}
+    </select>
+
+    <insert id="insertUserType" parameterType="UserType">
+        insert into user_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userType != null">user_type,</if>
+            <if test="canBorrowingTime != null">can_borrowing_time,</if>
+            <if test="canBorrowNumber != null">can_borrow_number,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userType != null">#{userType},</if>
+            <if test="canBorrowingTime != null">#{canBorrowingTime},</if>
+            <if test="canBorrowNumber != null">#{canBorrowNumber},</if>
+        </trim>
+    </insert>
+
+    <update id="updateUserType" parameterType="UserType">
+        update user_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="canBorrowingTime != null">can_borrowing_time = #{canBorrowingTime},</if>
+            <if test="canBorrowNumber != null">can_borrow_number = #{canBorrowNumber},</if>
+        </trim>
+        where user_type = #{userType}
+    </update>
+
+    <delete id="deleteUserTypeByUserType" parameterType="String">
+        delete from user_type where user_type = #{userType}
+    </delete>
+
+    <delete id="deleteUserTypeByUserTypes" parameterType="String">
+        delete from user_type where user_type in
+        <foreach item="userType" collection="array" open="(" separator="," close=")">
+            #{userType}
+        </foreach>
+    </delete>
+</mapper>

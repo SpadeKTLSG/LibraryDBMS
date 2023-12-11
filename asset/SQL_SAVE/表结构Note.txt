@@ -5,3 +5,5 @@ borrow
 reader
 staff
 user_type
+
+注意user_type表与borrow表是描述表之间关系的, 因此不能够从页面新增

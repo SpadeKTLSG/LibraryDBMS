@@ -1,4 +1,4 @@
-自己定义的6个表, 完整的保存和若依+自己项目的保存见SQL_SAVE
+自己定义的6个表, 保存见SQL_SAVE
 
 book bookshelf
 borrow
@@ -7,3 +7,4 @@ staff
 user_type
 
 注意user_type表与borrow表是描述表之间关系的, 因此不能够从页面新增
+注意borrow表的book_id实际上名字对不上,自己注意即可

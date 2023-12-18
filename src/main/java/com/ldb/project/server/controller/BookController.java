@@ -10,10 +10,13 @@ import com.ldb.project.server.domain.Book;
 import com.ldb.project.server.service.IBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+
+import static com.ldb.project.server.domain.GlobalField.BOOK_TYPE_LIST;
 
 
 /**
@@ -90,4 +93,16 @@ public class BookController extends BaseController {
     public AjaxResult remove(@PathVariable Long[] bookIds) {
         return toAjax(bookService.deleteBookByBookIds(bookIds));
     }
+
+    /**
+     * @Author SpadeKTLSG
+     * @description 要获取当前的书籍分类列表, 暂时用全局变量代替
+     */
+    @PreAuthorize("@ss.hasPermi('server:Book:list')")
+    @GetMapping("/getTypeOptions")
+    public List<String> getTypeOptions() { //FIXME 请改为toAjax封装, 否则我接不到内容
+
+        return BOOK_TYPE_LIST;
+    }
+
 }

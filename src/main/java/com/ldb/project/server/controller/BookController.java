@@ -95,13 +95,11 @@ public class BookController extends BaseController {
 
     /**
      * @Author SpadeKTLSG
-     * @description 要获取当前的书籍分类列表, 暂时用全局变量代替
+     * @description 要获取当前的书籍分类列表
      */
     @PreAuthorize("@ss.hasPermi('server:Book:list')")
     @GetMapping("/getTypeOptions")
     public TableDataInfo getTypeOptions() {
-        logger.info("sadsadassadasd");
         return getDataTable(BOOK_TYPE_LIST);
     }
-    //http://localhost:8080/server/Book/getTypeOptions
 }

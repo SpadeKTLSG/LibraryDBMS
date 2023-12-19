@@ -98,10 +98,10 @@ public class BookController extends BaseController {
      * @Author SpadeKTLSG
      * @description 要获取当前的书籍分类列表, 暂时用全局变量代替
      */
-    @PreAuthorize("@ss.hasPermi('server:Book:list')")
+   
     @GetMapping("/getTypeOptions")
     public List<String> getTypeOptions() { //FIXME 请改为toAjax封装, 否则我接不到内容
-
+        logger.info("sadsadassadasd");
         return BOOK_TYPE_LIST;
     }
 

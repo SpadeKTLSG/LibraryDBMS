@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+import static com.ldb.project.server.domain.GlobalField.BOOK_TYPE_LIST;
+import static com.ldb.project.server.domain.GlobalField.READER_TYPE_LIST;
+
 /**
  * 读者Controller
  *
@@ -87,5 +90,15 @@ public class ReaderController extends BaseController {
     @DeleteMapping("/{cardNumbers}")
     public AjaxResult remove(@PathVariable Long[] cardNumbers) {
         return toAjax(readerService.deleteReaderByCardNumbers(cardNumbers));
+    }
+
+    /**
+     * @Author SpadeKTLSG
+     * @description 要获取当前的读者分类列表
+     */
+    @PreAuthorize("@ss.hasPermi('server:Reader:list')")
+    @GetMapping("/getTypeOptions")
+    public TableDataInfo getTypeOptions() {
+        return getDataTable(READER_TYPE_LIST);
     }
 }

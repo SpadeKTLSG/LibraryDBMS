@@ -8,6 +8,25 @@ import java.util.List;
  */
 public abstract class GlobalField {
     /**
+     * 读者类型列表
+     * <p>手动定义</p>
+     * 星耀会员
+     * 白银会员
+     * 铂金会员
+     * 青铜会员
+     * 黄金会员
+     * 钻石会员
+     */
+    public static final List<String> READER_TYPE_LIST = List.of(
+            "青铜会员",
+            "白银会员",
+            "黄金会员",
+            "铂金会员",
+            "钻石会员",
+            "星耀会员");
+
+
+    /**
      * 书籍类型列表
      * <p>手动定义</p>
      * 马列毛邓

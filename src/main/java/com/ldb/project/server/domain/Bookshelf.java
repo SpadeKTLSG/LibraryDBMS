@@ -3,10 +3,7 @@ package com.ldb.project.server.domain;
 
 import com.ldb.framework.aspectj.lang.annotation.Excel;
 import com.ldb.framework.web.domain.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import static com.ldb.common.utils.uuid.MyUtils.generateUUID;
 
@@ -21,6 +18,7 @@ import static com.ldb.common.utils.uuid.MyUtils.generateUUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Bookshelf extends BaseEntity {
     private static final long serialVersionUID = 1L;
 

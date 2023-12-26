@@ -3,10 +3,7 @@ package com.ldb.project.server.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ldb.framework.aspectj.lang.annotation.Excel;
 import com.ldb.framework.web.domain.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
@@ -20,6 +17,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Borrow extends BaseEntity {
     private static final long serialVersionUID = 1L;
 

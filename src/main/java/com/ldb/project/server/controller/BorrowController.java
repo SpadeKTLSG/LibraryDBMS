@@ -97,7 +97,7 @@ public class BorrowController extends BaseController {
      * @Author SpadeK
      */
     @PreAuthorize("@ss.hasPermi('server:Borrow:list')")
-    @GetMapping("/list")
+    @GetMapping("/listReader")
     public TableDataInfo listReader(Borrow borrow) {
         startPage();
         List<Borrow> list = borrowService.selectReaderBorrowList(borrow);

@@ -28,7 +28,7 @@
     <select id="selectReaderBorrowList" parameterType="Borrow" resultMap="BorrowResult">
         <include refid="selectBorrowVo"/>
         <where>
-            <if test="card_number!= null">and card_number = #{cardNumber}</if>
+            <if test="cardNumber!= null">and card_number = #{cardNumber}</if>
             <if test="bookBorrowTime != null ">and book_borrow_time = #{bookBorrowTime}</if>
             <if test="bookReturnTime != null ">and book_return_time = #{bookReturnTime}</if>
             <if test="isReturn != null ">and is_return = #{isReturn}</if>

@@ -4,7 +4,4 @@
 
 合作项目 - 后端
 
-TODOs
-
-2. 业务逻辑实现
-3. 联调
+TODO BUGFIX and README

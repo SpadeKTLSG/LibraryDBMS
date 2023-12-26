@@ -58,4 +58,12 @@ public interface BorrowMapper {
      * @return 结果
      */
     public int deleteBorrowByCardNumbers(Long[] cardNumbers);
+
+    /**
+     * 查询特定读者借阅列表
+     *
+     * @param borrow 借阅
+     * @return 借阅集合
+     */
+    List<Borrow> selectReaderBorrowList(Borrow borrow);
 }

@@ -58,4 +58,13 @@ public interface IBorrowService {
      * @return 结果
      */
     public int deleteBorrowByCardNumber(Long cardNumber);
+
+    /**
+     * 查询特定读者借阅
+     *
+     * @param borrow 借阅
+     * @return 借阅集合
+     */
+    List<Borrow> selectReaderBorrowList(Borrow borrow);
+
 }

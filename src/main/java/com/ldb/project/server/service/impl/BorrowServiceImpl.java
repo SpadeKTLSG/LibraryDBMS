@@ -84,4 +84,15 @@ public class BorrowServiceImpl implements IBorrowService {
     public int deleteBorrowByCardNumber(Long cardNumber) {
         return borrowMapper.deleteBorrowByCardNumber(cardNumber);
     }
+
+    /**
+     * 查询特定读者借阅
+     *
+     * @param borrow 借阅
+     * @return 借阅集合
+     */
+    @Override
+    public List<Borrow> selectReaderBorrowList(Borrow borrow) {
+        return borrowMapper.selectReaderBorrowList(borrow);
+    }
 }

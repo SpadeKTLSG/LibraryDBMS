@@ -89,4 +89,19 @@ public class BorrowController extends BaseController {
     public AjaxResult remove(@PathVariable Long[] cardNumbers) {
         return toAjax(borrowService.deleteBorrowByCardNumbers(cardNumbers));
     }
+
+    /**
+     * 查询借阅列表
+     * TODO @A 修改Mapper逻辑, 通过人cardNumber查询借阅列表
+     *
+     * @Author SpadeK
+     */
+    @PreAuthorize("@ss.hasPermi('server:Borrow:list')")
+    @GetMapping("/list")
+    public TableDataInfo listReader(Borrow borrow) {
+        startPage();
+        List<Borrow> list = borrowService.selectReaderBorrowList(borrow);
+        return getDataTable(list);
+    }
+
 }

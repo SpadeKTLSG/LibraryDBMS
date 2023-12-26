@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.ldb.project.server.domain.GlobalField.MAX_BORROW_NUM;
+
 
 /**
  * 借阅Service业务层处理
@@ -20,6 +22,7 @@ import java.util.List;
  */
 @Service
 public class BorrowServiceImpl implements IBorrowService {
+
     @Autowired
     private BorrowMapper borrowMapper;
 
@@ -117,6 +120,72 @@ public class BorrowServiceImpl implements IBorrowService {
     @Override
     @Transactional
     public int insertReaderBorrow(Borrow borrow) {
+        //TODO 修改Mybatis逻辑, 让双主键生效, 保证一个人能够借多本书
+        //FIXME 优化, 如果可能
+
+        //? 鉴权 判定能否借书
+        //1. 先查出对应用户
+        Long cardNumber = borrow.getCardNumber();
+        Reader reader = readerService.selectReaderByCardNumber(cardNumber);
+        //找到对应用户类型规定的最大借书量
+        String Type = reader.getReaderType();
+        Integer maxAmount = MAX_BORROW_NUM.get(Type);
+
+        //2. 看看他还能不能再借书: maxAmount>reader.getBorrowingNumber()
+        if (maxAmount <= reader.getBorrowingNumber()) {
+            //不能借书!
+            return 0; //FIXME 优化, 如果可能
+        }
+
+
+        //3. 可以则看看这本书的再馆库存: book.getInLibrariesNumber() > 0
+        Long bookNumber = borrow.getBookNumber();
+        Book book = bookService.selectBookByBookId(bookNumber);
+        if (book.getInLibrariesNumber() <= 0) {
+            //没有库存了!
+            return 0; //FIXME 优化, 如果可能
+        }
+
+
+        //? 正式的借阅逻辑
+        //个人借书数量增加, 图书馆库存减少
+
+        //1. book表中（in_libraries_number）减1
+
+        //找到对象book
+        //封装修改后的Book对象更新到updateReader
+        Book originalBook = bookService.selectBookByBookId(bookNumber);
+        Book updatedBook = Book.builder()
+                .bookId(originalBook.getBookId())
+                .bookName(originalBook.getBookName())
+                .author(originalBook.getAuthor())
+                .bookType(originalBook.getBookType())
+                .bookPrice(originalBook.getBookPrice())
+                .publishingHouse(originalBook.getPublishingHouse())
+                .summary(originalBook.getSummary())
+                .bookshelfNumber(originalBook.getBookshelfNumber())
+                .collectionNumber(originalBook.getCollectionNumber())
+                .borrowedNumber(originalBook.getBorrowedNumber() + 1) //借出数量+1
+                .inLibrariesNumber(originalBook.getInLibrariesNumber() - 1) //在馆数量-1
+                .build();
+        bookService.updateBook(updatedBook);
+
+
+        //2. reader中borrowing_number和borrowed_number字段都+1
+
+        Reader originalReader = readerService.selectReaderByCardNumber(cardNumber);
+
+        Reader updatedReader = Reader.builder()
+                .cardNumber(originalReader.getCardNumber())
+                .cardNumber(originalReader.getCardNumber())
+                .readerType(originalReader.getReaderType())
+                .sex(originalReader.getSex())
+                .borrowingNumber(originalReader.getBorrowingNumber() + 1)//正在借的+1
+                .borrowedNumber(originalReader.getBorrowedNumber() + 1)//借过的+1
+                .build();
+        readerService.updateReader(updatedReader);
+
+        //? 调用生成借阅关系
         return borrowMapper.insertReaderBorrow(borrow);
     }
 
@@ -130,7 +199,8 @@ public class BorrowServiceImpl implements IBorrowService {
     @Override
     @Transactional
     public int updateReaderBorrow(Borrow borrow) {
-
+        //TODO 修改Mybatis逻辑, 让双主键生效, 保证一个人能够借多本书
+        //FIXME 优化, 如果可能
 
         //?还书时,将isReturn置为1
         borrow.setIsReturn(1L);
@@ -179,7 +249,7 @@ public class BorrowServiceImpl implements IBorrowService {
 
         bookService.updateBook(updatedBook);
 
-        //?.调用updateBook
+        //?.调用修改借阅关系
         return borrowMapper.updateReaderBorrow(borrow);
     }
 }

@@ -66,4 +66,22 @@ public interface BorrowMapper {
      * @return 借阅集合
      */
     List<Borrow> selectReaderBorrowList(Borrow borrow);
+
+
+    /**
+     * 新增特定读者借阅
+     *
+     * @param borrow 借阅
+     * @return 结果
+     */
+    public int insertReaderBorrow(Borrow borrow);
+
+    /**
+     * 更新特定读者借阅
+     *
+     * @param borrow 借阅
+     * @return 结果
+     */
+    public int updateReaderBorrow(Borrow borrow);
+
 }

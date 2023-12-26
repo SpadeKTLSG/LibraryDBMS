@@ -92,7 +92,6 @@ public class BorrowController extends BaseController {
 
     /**
      * 查询借阅列表
-     * TODO @A 修改Mapper逻辑, 通过人cardNumber查询借阅列表
      *
      * @Author SpadeK
      */
@@ -104,4 +103,32 @@ public class BorrowController extends BaseController {
         return getDataTable(list);
     }
 
+
+    //! 借书 - 生成借阅关系 add
+
+    /**
+     * 新增借阅
+     *
+     * @Author SpadeK
+     */
+    @PreAuthorize("@ss.hasPermi('server:Borrow:add')")
+    @Log(title = "借阅", businessType = BusinessType.INSERT)
+    @PostMapping("/Add")
+    public AjaxResult addBorrow(@RequestBody Borrow borrow) {
+        return toAjax(borrowService.insertReaderBorrow(borrow));
+    }
+
+    //! 还书 - 修改借阅关系 edit
+
+    /**
+     * 修改借阅
+     *
+     * @Author SpadeK
+     */
+    @PreAuthorize("@ss.hasPermi('server:Borrow:edit')")
+    @Log(title = "借阅", businessType = BusinessType.UPDATE)
+    @PutMapping("/Update")
+    public AjaxResult updateBorrow(@RequestBody Borrow borrow) {
+        return toAjax(borrowService.updateReaderBorrow(borrow));
+    }
 }

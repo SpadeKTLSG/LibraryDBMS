@@ -90,9 +90,34 @@ public class BorrowServiceImpl implements IBorrowService {
      *
      * @param borrow 借阅
      * @return 借阅集合
+     * @Author SpadeK
      */
     @Override
     public List<Borrow> selectReaderBorrowList(Borrow borrow) {
         return borrowMapper.selectReaderBorrowList(borrow);
+    }
+
+    /**
+     * 新增特定读者借阅
+     *
+     * @param borrow 借阅
+     * @return 结果
+     * @Author SpadeK
+     */
+    @Override
+    public int insertReaderBorrow(Borrow borrow) {
+        return borrowMapper.insertReaderBorrow(borrow);
+    }
+
+    /**
+     * 修改特定读者借阅
+     *
+     * @param borrow 借阅
+     * @return 结果
+     * @Author SpadeK
+     */
+    @Override
+    public int updateReaderBorrow(Borrow borrow) {
+        return borrowMapper.updateReaderBorrow(borrow);
     }
 }

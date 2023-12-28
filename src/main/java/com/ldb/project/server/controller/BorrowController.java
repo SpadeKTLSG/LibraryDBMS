@@ -59,25 +59,39 @@ public class BorrowController extends BaseController {
         return success(borrowService.selectBorrowByCardNumber(cardNumber));
     }
 
+//    /**
+//     * 新增借阅
+//     * !弃用
+//     */
+//    @PreAuthorize("@ss.hasPermi('server:Borrow:add')")
+//    @Log(title = "借阅", businessType = BusinessType.INSERT)
+//    @PostMapping
+//    public AjaxResult add(@RequestBody Borrow borrow) {
+//        return toAjax(borrowService.insertBorrow(borrow));
+//    }
+
+//    /**
+//     * 修改借阅
+//     */
+//    @PreAuthorize("@ss.hasPermi('server:Borrow:edit')")
+//    @Log(title = "借阅", businessType = BusinessType.UPDATE)
+//    @PutMapping
+//    public AjaxResult edit(@RequestBody Borrow borrow) {
+//        logger.info("asdsadasd888888888");
+//        return toAjax(borrowService.updateBorrow(borrow));
+//    }
+
+
     /**
      * 新增借阅
-     * !弃用
+     *
+     * @Author SpadeK
      */
     @PreAuthorize("@ss.hasPermi('server:Borrow:add')")
     @Log(title = "借阅", businessType = BusinessType.INSERT)
-    @PostMapping
-    public AjaxResult add(@RequestBody Borrow borrow) {
-        return toAjax(borrowService.insertBorrow(borrow));
-    }
-
-    /**
-     * 修改借阅
-     */
-    @PreAuthorize("@ss.hasPermi('server:Borrow:edit')")
-    @Log(title = "借阅", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody Borrow borrow) {
-        return toAjax(borrowService.updateBorrow(borrow));
+    public AjaxResult addBorrow(@RequestBody Borrow borrow) {
+        return toAjax(borrowService.insertReaderBorrow(borrow));
     }
 
     /**
@@ -106,17 +120,7 @@ public class BorrowController extends BaseController {
 
     //! 借书 - 生成借阅关系 add
 
-    /**
-     * 新增借阅
-     *
-     * @Author SpadeK
-     */
-    @PreAuthorize("@ss.hasPermi('server:Borrow:add')")
-    @Log(title = "借阅", businessType = BusinessType.INSERT)
-    @PostMapping("/Add")
-    public AjaxResult addBorrow(@RequestBody Borrow borrow) {
-        return toAjax(borrowService.insertReaderBorrow(borrow));
-    }
+
 
     //! 还书 - 修改借阅关系 edit
 

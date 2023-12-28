@@ -58,4 +58,5 @@ public interface BookMapper {
      * @return 结果
      */
     public int deleteBookByBookIds(Long[] bookIds);
+
 }

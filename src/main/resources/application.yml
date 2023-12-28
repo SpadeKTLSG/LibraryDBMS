@@ -31,11 +31,11 @@ server:
       # Tomcat启动初始化的线程数，默认值10
       min-spare: 100
 
-# 日志配置
-logging:
-  level:
-    com.ldb: warn # !默认修改为warn，避免过多的日志输出
-    org.springframework: warn
+## 日志配置
+#logging:
+#  level:
+#    com.ldb: warn # !默认修改为warn，避免过多的日志输出
+#    org.springframework: warn
 
 
 # 用户配置

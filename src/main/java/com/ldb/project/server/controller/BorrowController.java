@@ -134,7 +134,7 @@ public class BorrowController extends BaseController {
     @Log(title = "借阅", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult updateBorrow(@RequestBody Borrow borrow) {
-        logger.info(borrow.toString());
+        logger.info("我进来了{}",borrow.toString());
         return toAjax(borrowService.updateReaderBorrow(borrow));
     }
 }

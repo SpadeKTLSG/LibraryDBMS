@@ -176,7 +176,6 @@ public class BorrowServiceImpl implements IBorrowService {
         Reader updatedReader = Reader.builder()
                 .cardNumber(originalReader.getCardNumber())
                 .borrowingNumber(originalReader.getBorrowingNumber() + 1)//正在借的+1
-                .borrowedNumber(originalReader.getBorrowedNumber() + 1)//借过的+1
                 .build();
         readerService.updateReader(updatedReader);
         return borrowMapper.insertReaderBorrow(borrow);
@@ -208,6 +207,7 @@ public class BorrowServiceImpl implements IBorrowService {
 
         Reader updatedReader = Reader.builder()
                 .cardNumber(originalReader.getCardNumber())
+                .borrowedNumber(originalReader.getBorrowedNumber()+1)
                 .borrowingNumber(originalReader.getBorrowingNumber() - 1) //正在借的-1
                 .build();
 
@@ -230,6 +230,7 @@ public class BorrowServiceImpl implements IBorrowService {
 
         bookService.updateBook(updatedBook);
 
+        log.info("我走到了这里");
         //?.调用修改借阅关系
         return borrowMapper.updateReaderBorrow(borrow);
     }

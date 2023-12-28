@@ -92,12 +92,11 @@
     <update id="updateReaderBorrow" parameterType="Borrow">
         update borrow
         <trim prefix="SET" suffixOverrides=",">
-            <if test="bookNumber != null">book_number = #{bookNumber},</if>
             <if test="bookBorrowTime != null">book_borrow_time = #{bookBorrowTime},</if>
             <if test="bookReturnTime != null">book_return_time = #{bookReturnTime},</if>
             <if test="isReturn != null">is_return = #{isReturn},</if>
         </trim>
-        where card_number = #{cardNumber}
+        where card_number = #{cardNumber} and book_number = #{bookNumber}
     </update>
 
     <delete id="deleteBorrowByCardNumber" parameterType="Long">

@@ -7,9 +7,9 @@ spring:
       # 主库数据源
       master:
         # driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://124.70.10.183/library_management_system?rewriteBatchedStatements=true
+        url: jdbc:mysql://20.255.94.176:3306/ldb?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
         username: root
-        password: 123456
+        password: 2333
 
       # 从库数据源
       slave:

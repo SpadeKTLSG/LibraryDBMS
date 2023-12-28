@@ -127,9 +127,11 @@ public class BorrowServiceImpl implements IBorrowService {
         //FIXME 优化, 如果可能
         //? 鉴权 判定能否借书
         //1. 先查出对应用户
+        log.info(borrow.toString());
         Long cardNumber = borrow.getCardNumber();
         Reader reader = readerService.selectReaderByCardNumber(cardNumber);
         if (reader==null){
+            log.info("没有这个用户");
             return 0;
         }
         //找到对应用户类型规定的最大借书量
@@ -139,6 +141,7 @@ public class BorrowServiceImpl implements IBorrowService {
         //2. 看看他还能不能再借书: maxAmount>reader.getBorrowingNumber()
         if (maxAmount <= reader.getBorrowingNumber()) {
             //不能借书!
+            log.info("你的借书数量已达到上限");
             return 0; //FIXME 优化, 如果可能
         }
 
@@ -147,6 +150,7 @@ public class BorrowServiceImpl implements IBorrowService {
         Book originalBook = bookService.selectBookByBookId(bookId);
         if (originalBook.getInLibrariesNumber() <= 0) {
             //没有库存了!
+            log.info("这本书没库存了");
             return 0; //FIXME 优化, 如果可能
         }
 
@@ -192,7 +196,7 @@ public class BorrowServiceImpl implements IBorrowService {
         //FIXME 优化, 如果可能
 
         //?还书时,将isReturn置为1
-        borrow.setIsReturn(1L);
+        borrow.setIsReturn(0L);
 
         //?修改reader表中borrowing_number(正在借的-1)和borrowed_number(借过的不动)字段
 
@@ -204,11 +208,7 @@ public class BorrowServiceImpl implements IBorrowService {
 
         Reader updatedReader = Reader.builder()
                 .cardNumber(originalReader.getCardNumber())
-                .cardNumber(originalReader.getCardNumber())
-                .readerType(originalReader.getReaderType())
-                .sex(originalReader.getSex())
                 .borrowingNumber(originalReader.getBorrowingNumber() - 1) //正在借的-1
-                .borrowedNumber(originalReader.getBorrowedNumber())
                 .build();
 
         readerService.updateReader(updatedReader);
@@ -224,14 +224,6 @@ public class BorrowServiceImpl implements IBorrowService {
 
         Book updatedBook = Book.builder()
                 .bookId(originalBook.getBookId())
-                .bookName(originalBook.getBookName())
-                .author(originalBook.getAuthor())
-                .bookType(originalBook.getBookType())
-                .bookPrice(originalBook.getBookPrice())
-                .publishingHouse(originalBook.getPublishingHouse())
-                .summary(originalBook.getSummary())
-                .bookshelfNumber(originalBook.getBookshelfNumber())
-                .collectionNumber(originalBook.getCollectionNumber())
                 .borrowedNumber(originalBook.getBorrowedNumber() - 1)
                 .inLibrariesNumber(originalBook.getInLibrariesNumber() + 1)
                 .build();

@@ -89,8 +89,9 @@ public class BorrowController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('server:Borrow:add')")
     @Log(title = "借阅", businessType = BusinessType.INSERT)
-    @PutMapping
+    @PostMapping
     public AjaxResult addBorrow(@RequestBody Borrow borrow) {
+        logger.info("我新增了");
         return toAjax(borrowService.insertReaderBorrow(borrow));
     }
 
@@ -131,8 +132,9 @@ public class BorrowController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('server:Borrow:edit')")
     @Log(title = "借阅", businessType = BusinessType.UPDATE)
-    @PutMapping("/Update")
+    @PutMapping
     public AjaxResult updateBorrow(@RequestBody Borrow borrow) {
+        logger.info(borrow.toString());
         return toAjax(borrowService.updateReaderBorrow(borrow));
     }
 }

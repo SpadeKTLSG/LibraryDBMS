@@ -7,7 +7,7 @@ spring:
       # 主库数据源
       master:
         # driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://20.255.94.176:3306/ldb?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+        url: jdbc:mysql://   /ldb?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
         username: root
         password: 2333
 

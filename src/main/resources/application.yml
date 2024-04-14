@@ -76,10 +76,10 @@ spring:
   
   # redis 配置
   redis:
-    host: 124.70.10.183    #W的虚拟机
-    port: 6379
+    host:
+    port:
     database: 12     # 数据库索引设置为12号以免冲突
-    password: qwe123     # 密码
+    password:
 
     # 连接超时时间
     timeout: 15s

@@ -8,8 +8,8 @@ spring:
       master:
         # driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://   /ldb?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
-        username: root
-        password: 2333
+        username: 
+        password: 
 
       # 从库数据源
       slave:
